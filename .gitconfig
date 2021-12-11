@@ -1,0 +1,7 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Nathan Mendoza
+	email = 74679703+nathancmendoza@users.noreply.github.com
+[init]
+	defaultBranch = main
