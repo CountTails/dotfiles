@@ -1,4 +1,6 @@
-## zsh personal functions
+## zsh user functions
+
+# print out a dotted line accross the terminal
 function drawline(){
     for i in {1..$COLUMNS}
     do
@@ -7,23 +9,30 @@ function drawline(){
     echo
 } 
 
-#precmd
-function precmd() {
-    drawline
+# print out the current time and date with styling
+function timedate(){
+    local TIMEDATE='%F{25}%W [%T]%f'
+    echo $TIMEDATE
 }
 
-# Prompt custumization
-PROMPT='%F{25}%W (%T)%f | %F{136}%U%d%u%f $(git_super_status)
-'$'\U27A4'' ' #unicode sequence for the arrow prompt. the $ forces the sequence to be expanded
-
-# zsh personal functions
-function drawline(){
-    for i in {1..$COLUMNS}
-    do
-        echo -n '_' 
-    done;
-    echo
+# print out the current workind directory with styling
+function currworkingdir(){
+    local PWD='%F{136}%U%d%u%f'
+    echo $PWD
 }
+
+# print a solid right arrow to indicate start of standard input
+function promptarrow(){
+    local PROMPTARROW='\U27A4'
+    echo $PROMPTARROW
+}
+
+# prompt customization
+PROMPT='$(drawline)
+$(timedate) | $(currworkingdir) $(git_super_status)
+$(promptarrow) '
+
+
 
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
