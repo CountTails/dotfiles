@@ -1,10 +1,10 @@
-## zsh user functions
+# zsh user functions
 
 # print out a dotted line accross the terminal
 function drawline(){
     for i in {1..$COLUMNS}
     do
-        echo -n '_' 
+        echo -n '%(?.%F{green}%U %u%f.%F{red}%U %u%f)' 
     done;
     echo
 } 
