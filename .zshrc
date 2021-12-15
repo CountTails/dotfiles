@@ -41,3 +41,13 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Startup fortune
 fortune | cowsay -f tux
+
+# set environment variables
+export CLICOLOR=1
+export PATH=$PATH
+
+# aliases
+# aliases for ls
+alias ls="ls -F"
+alias ll="ls -l"
+alias la="ls -a"
