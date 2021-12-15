@@ -51,3 +51,8 @@ export PATH=$PATH
 alias ls="ls -F"
 alias ll="ls -l"
 alias la="ls -a"
+alias lla="ls -la"
+
+# aliases for rm/mv
+alias rm="rm -i"
+alias mv="mv -v"
