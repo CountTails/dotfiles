@@ -79,7 +79,7 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*xlsx
 set statusline=
 
 "Status line left side"
-set statusline+=\ %F\ %M\ %Y\ %R
+set statusline+=\ %f\ %m\ %y\ %r
 
 "Use a divider to separate the left side from the right side"
 set statusline+=%=
