@@ -49,7 +49,7 @@ cask "lastpass"
 # Administration and development platform for PostgreSQL
 # cask "pgadmin4"
 # Virtual machines UI using QEMU
-cask "utm"
+# cask "utm"
 # Open-source code editor
 cask "visual-studio-code"
 # Video communication and virtual meeting platform
