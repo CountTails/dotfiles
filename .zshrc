@@ -56,3 +56,31 @@ alias lla="ls -la"
 # aliases for rm/mv
 alias rm="rm -i"
 alias mv="mv -v"
+
+# aliases for git
+alias ga="git add"
+alias gp="git push"
+alias gl="git log"
+alias gs="git status"
+alias gd="git diff"
+alias gm="git commit -m"
+alias gma="git commit -am"
+alias gb="git branch"
+alias gc="git checkout"
+alias gra="git remote add"
+alias grr="git remote rm"
+alias gpu="git pull"
+alias gcl="git clone"
+alias gta="git tag -a -m"
+alias gf="git reflog"
+
+# aliases for homebrew
+alias brewp="brew pin"
+alias brews="brew list -1"
+alias brewsp="brew list --pinned"
+alias bubo="brew update && brew outdated"
+alias bubc='brew upgrade && brew cleanup'
+alias bubu="bubo && bubc"
+alias buf="brew upgrade --formula"
+alias bcubo="brew update && brew outdated --cask"
+alias bcubc="brew upgrade --cask && brew cleanup"
