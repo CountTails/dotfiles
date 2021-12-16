@@ -4,6 +4,12 @@ set nocompatible
 "Enable type file dectection. Vim will be able to try to detect the type of file is use"
 filetype on
 
+"Enable plugins and load plugins for the detected file type"
+filetype plugin on
+
+"Load an indent file for the detected file type"
+filetype indent on
+
 "Turn syntax highlighting on"
 syntax on
 
@@ -12,6 +18,7 @@ set number
 
 "Highlight cursor line underneath the cursor horizontally"
 set cursorline
+hi CursorLine term=bold cterm=bold
 
 "Highlight cursor line underneath the cursor vertically"
 set cursorcolumn
@@ -24,6 +31,9 @@ set tabstop=4
 
 "Use space characters in place of tabs
 set expandtab
+
+"Disable automatic block indentation"
+set noautoindent 
 
 "Do not save backup files
 set nobackup
