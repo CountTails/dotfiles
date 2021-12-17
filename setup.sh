@@ -12,10 +12,10 @@ function install_homebrew {
     echo "Installing the homebrew package manager for $(uname)"
     echo "================================================================================="
 
-    if [ $(uname) == Darwin ] then
+    if [ $(uname) = Darwin ] then
          xcode-select --install
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    elif [ $(uname) == Linux ] then
+    elif [ $(uname) = Linux ] then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else 
         echo "=========================================================================================="
