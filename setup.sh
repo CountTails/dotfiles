@@ -21,10 +21,10 @@ function install_homebrew {
         echo "=========================================================================================="
         echo "Unrecognized OS detected. Unable to install the homebrew package manager"
         echo "=========================================================================================="
-        exit(1)
+        exit 1
     fi
 
-    if [ $? -eq 0 ] then
+    if [ $? -eq 0 ] ; then
         echo "=========================================================================================="
         echo "Successfully installed the homebrew package manager"
         echo "=========================================================================================="
@@ -32,7 +32,7 @@ function install_homebrew {
         echo "=========================================================================================="
         echo "Failed to install the homebrew package manager"
         echo "=========================================================================================="
-        exit(1)
+        exit 1
     fi
 }
 
@@ -46,9 +46,9 @@ function set_up_links {
 
     for file in "${DOTFILES[@]}"
     do
-        if [ -f $HOME/$file ] then
+        if [ -f $HOME/$file ] ; then
             rm -f $HOME/$file  
-        elif [ -d $HOME/$file ] then
+        elif [ -d $HOME/$file ] ; then
             rm -rf $HOME/$file
         fi
     done
@@ -71,7 +71,7 @@ function install_packages {
 
     /bin/bash "$(brew bundle)"
 
-    if [ $? -eq 0 ] then
+    if [ $? -eq 0 ] ; then
         echo "=========================================================================================="
         echo "All packages successfully installed"
         echo "=========================================================================================="
@@ -79,7 +79,7 @@ function install_packages {
         echo "=========================================================================================="
         echo "Something went wrong installing packages"
         echo "=========================================================================================="
-        exit(1)
+        exit 1
     fi
 
 }
@@ -89,20 +89,20 @@ function switch_shells {
     echo "Preparing to switch the default shell to ZSH"
     echo "================================================================================="
 
-    if [ "$SHELL" == "/bin/zsh" ] then
+    if [ "$SHELL" == "/bin/zsh" ] ; then
         echo "The default shell is already ZSH. Horray!!!"
-    else then
+    else 
         chsh "$(which zsh)"
 
-        if [ $? -eq 0 ] then
+        if [ $? -eq 0 ] ; then
             echo "======================================================================================"
             echo "Default shell successfully changed to ZSH"
             echo "======================================================================================"
-        else then
+        else 
             echo "======================================================================================"
             echo "The default shell could not be changes to ZSH"
             echo "======================================================================================"
-            exit(1)
+            exit 1
         fi
     fi
 }
@@ -111,6 +111,7 @@ function print_exit_banner {
     echo "================================================================================="
     echo "Setup script complete. Happy coding!"
     echo "================================================================================="
+    exit 0
 }
 
 function main {
