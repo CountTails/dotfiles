@@ -15,9 +15,9 @@ function install_homebrew {
     if [ "$(uname)" == "Darwin" ] then
          xcode-select --install
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    else if [ "$(uname)" == "Linux" ] then
+    elif [ "$(uname)" == "Linux" ] then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    else then
+    else 
         echo "=========================================================================================="
         echo "Unrecognized OS detected. Unable to install the homebrew package manager"
         echo "=========================================================================================="
@@ -28,7 +28,7 @@ function install_homebrew {
         echo "=========================================================================================="
         echo "Successfully installed the homebrew package manager"
         echo "=========================================================================================="
-    else then
+    else 
         echo "=========================================================================================="
         echo "Failed to install the homebrew package manager"
         echo "=========================================================================================="
@@ -48,10 +48,9 @@ function set_up_links {
     do
         if [ -f $HOME/$file ] then
             rm -f $HOME/$file  
-        else if [ -d $HOME/$file ] then
+        elif [ -d $HOME/$file ] then
             rm -rf $HOME/$file
         fi
-
     done
 
     for file in  "${DOTFILES[@]}"
@@ -76,7 +75,7 @@ function install_packages {
         echo "=========================================================================================="
         echo "All packages successfully installed"
         echo "=========================================================================================="
-    else then
+    else
         echo "=========================================================================================="
         echo "Something went wrong installing packages"
         echo "=========================================================================================="
