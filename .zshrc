@@ -27,24 +27,23 @@ function promptarrow(){
     echo $PROMPTARROW
 }
 
-# prompt customization
-PROMPT='$(drawline)
-$(timedate) | $(currworkingdir) $(git_super_status)
-$(promptarrow) '
-
-
+# set environment variables
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export CLICOLOR=1
+export PATH=$PATH
 
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/opt/zsh-git-prompt/zshrc.sh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# prompt customization
+PROMPT="$(drawline)
+$(timedate) | $(currworkingdir) $(git_super_status)
+$(promptarrow) "
+
 # Startup fortune
 fortune | cowsay -f tux
-
-# set environment variables
-export CLICOLOR=1
-export PATH=$PATH
 
 # aliases
 # aliases for ls
