@@ -15,8 +15,10 @@ function install_homebrew {
     if [ $(uname) = Darwin ] ; then
          xcode-select --install
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+         eval "$(/opt/homebrew/bin/brew shellenv)"
     elif [ $(uname) = Linux ] ; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     else 
         echo "=========================================================================================="
         echo "Unrecognized OS detected. Unable to install the homebrew package manager"
