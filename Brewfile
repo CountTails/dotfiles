@@ -23,7 +23,7 @@ brew "htop"
 # Development kit for the Java programming language
 brew "openjdk"
 # Object-relational database system
-# brew "postgresql", restart_service: true
+brew "postgresql", restart_service: true
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.9"
 # Python interface to Tcl/Tk
@@ -39,18 +39,18 @@ brew "zsh-git-prompt"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
 # Voice and text chat software
-# cask "discord"
+cask "discord"
 # Password manager
 cask "lastpass"
 # Provides updates to various Microsoft products
-# cask "microsoft-auto-update"
+cask "microsoft-auto-update"
 # Office suite
-# cask "microsoft-office"
+cask "microsoft-office"
 # Administration and development platform for PostgreSQL
-# cask "pgadmin4"
+cask "pgadmin4"
 # Virtual machines UI using QEMU
-# cask "utm"
+cask "utm"
 # Open-source code editor
 cask "visual-studio-code"
 # Video communication and virtual meeting platform
-# cask "zoom"
+cask "zoom"
