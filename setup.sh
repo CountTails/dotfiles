@@ -48,7 +48,7 @@ function set_up_links {
     echo "Setting up symlinks to the dofiles directory in the home directory"
     echo "================================================================================="
 
-    DOTFILES=(.gitconfig .ssh/ .vimrc .vscode/ .zprofile .zshrc)
+    DOTFILES=(.gitconfig .ssh .vimrc .vscode .zprofile .zshrc)
 
     for file in "${DOTFILES[@]}"
     do
@@ -79,7 +79,7 @@ function install_packages {
 
     if [ $? -eq 0 ] ; then
         echo "=========================================================================================="
-        echo "All packages successfully installed"
+        echo "All packages successfully installed Horray!!!"
         echo "=========================================================================================="
     else
         echo "=========================================================================================="
