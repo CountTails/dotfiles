@@ -97,7 +97,7 @@ function switch_shells {
     if [ "$SHELL" == "/bin/zsh" ] ; then
         echo "The default shell is already ZSH. Horray!!!"
     else 
-        chsh "$(which zsh)"
+        chsh -s "$(which zsh)"
 
         if [ $? -eq 0 ] ; then
             echo "======================================================================================"
@@ -114,7 +114,7 @@ function switch_shells {
 
 function print_exit_banner {
     echo "================================================================================="
-    echo "Setup script complete. Happy coding!"
+    echo "Setup script completed successfully. Happy coding!"
     echo "================================================================================="
     exit 0
 }
