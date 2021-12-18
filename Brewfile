@@ -32,6 +32,8 @@ brew "python-tk@3.9"
 brew "subversion"
 # Internet file retriever
 brew "wget"
+# UNIX shell (command interpreter)
+brew "zsh"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
 # Informative git prompt for zsh
