@@ -72,7 +72,7 @@ function set_up_links {
 
 function install_packages {
     echo "================================================================================="
-    echo "Installing packages listed in $SCRIPTDIR/Brewfile"
+    echo "Installing packages listed in $SCRIPT_DIR/Brewfile"
     echo "================================================================================="
 
     /bin/bash "$(brew bundle)"
