@@ -83,9 +83,8 @@ function install_packages {
         echo "=========================================================================================="
     else
         echo "=========================================================================================="
-        echo "Something went wrong installing packages"
+        echo "Not all packages were successfully installed! Continuing with setup."
         echo "=========================================================================================="
-        exit 1
     fi
 
 }
