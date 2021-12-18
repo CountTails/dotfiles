@@ -96,7 +96,16 @@ function switch_shells {
 
     if [ "$SHELL" == "/bin/zsh" ] ; then
         echo "The default shell is already ZSH. Horray!!!"
-    else 
+    else
+        cat /etc/shells | grep zsh
+        
+        if [ $? -ne 0 ] ; then
+            echo "ZSH does not appear to be a valid login shell"
+            echo "Will try to add ZSH to /etc/shells"
+            brew install zsh
+            sudo echo "$(which zsh)" >> /etc/shells
+        fi
+        
         chsh -s "$(which zsh)"
 
         if [ $? -eq 0 ] ; then
