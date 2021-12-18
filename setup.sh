@@ -17,12 +17,25 @@ function install_homebrew {
     if [ $(uname) = Darwin ] ; then
          xcode-select --install
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-         eval "$(/opt/homebrew/bin/brew shellenv)"
-         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $SCRIPT_DIR/.zshrc
+         if [ $(uname -m) = x86_64 ] ; then
+             eval "$(/usr/local/bin/brew shellenv)"
+         elif [ $(uname -m) = arm64 ] ; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+         else
+             echo "================================================================================"
+             echo "Unsupported architecture ($uname -m). Unable to install the homebrew package manager"
+             echo "================================================================================"
+             exit 1
+         fi
     elif [ $(uname) = Linux ] ; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [ $(uname -m) != x86_64 ] ; then
+             echo "================================================================================"
+             echo "Unsupported architecture ($uname -m). Unable to install the homebrew package manager"
+             echo "================================================================================"
+             exit 1
+        fi
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $SCRIPT_DIR/.zshrc
     else 
         echo "=========================================================================================="
         echo "Unrecognized OS detected. Unable to install the homebrew package manager"

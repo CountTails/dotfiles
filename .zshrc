@@ -28,7 +28,24 @@ function promptarrow(){
 }
 
 # set environment variables
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ $(uname) = Linux ] ; then
+    if [ $(uname -m) = x86_64 ] ; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    else
+        echo "Homebrew binaries not included in $PATH"
+    fi
+elif [ $(uname) = Darwin ] ; then
+    if [ $(uname -m) = x86_64 ] ; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    elif [ $(uname -m) = arm64 ] ; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        echo "Homebrew binaries not included in $PATH"
+    fi
+else
+    echo "Homebrew binaries not included in $PATH"
+fi
+
 export CLICOLOR=1
 export PATH=$PATH
 
