@@ -1,4 +1,6 @@
 #! /bin/bash
+
+
 SCRIPT_DIR=$HOME/.dotfiles
 
 function print_welcome_banner {
@@ -16,9 +18,11 @@ function install_homebrew {
          xcode-select --install
          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
          eval "$(/opt/homebrew/bin/brew shellenv)"
+         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > $SCRIPT_DIR/.zprofile
     elif [ $(uname) = Linux ] ; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' > $SCRIPT_DIR/.zprofile
     else 
         echo "=========================================================================================="
         echo "Unrecognized OS detected. Unable to install the homebrew package manager"
