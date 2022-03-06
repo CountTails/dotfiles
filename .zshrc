@@ -72,7 +72,7 @@ alias lla="ls -la"
 # aliases for rm/mv/cp
 alias rm="rm -i"
 alias mv="mv -v"
-alias cp="mv -v"
+alias cp="cp -v"
 
 # aliases for git
 alias ga="git add"
