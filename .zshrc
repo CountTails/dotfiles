@@ -47,11 +47,13 @@ else
 fi
 
 export CLICOLOR=1
-export PATH=$PATH
+export PATH=$PATH:/usr/local/texlive/2022/bin/universal-darwin
+export CATALINA_HOME=/opt/homebrew/Cellar/tomcat/10.0.20/libexec
+
 
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/opt/zsh-git-prompt/zshrc.sh
+source $(brew --prefix)/Cellar/zsh-git-prompt/0.5/zshrc.sh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # prompt customization
