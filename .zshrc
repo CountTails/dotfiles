@@ -65,11 +65,11 @@ $(promptarrow) "
 fortune | cowsay -f tux
 
 # aliases
-# aliases for ls
-alias ls="ls -F"
-alias ll="ls -l"
-alias la="ls -a"
-alias lla="ls -la"
+# aliases for (modern) ls
+alias ls="exa"
+
+# aliases for (modern) cat
+alias cat="bat"
 
 # aliases for rm/mv/cp
 alias rm="rm -i"

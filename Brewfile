@@ -1,58 +1,44 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
+tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
-# Mozilla CA certificate store
-brew "ca-certificates"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@1.1"
-# Cross-platform make
-brew "cmake"
-# Console Matrix
-brew "cmatrix"
-# Configurable talking characters in ASCII art
-brew "cowsay"
-# Infamous electronic fortune-cookie generator
-brew "fortune"
-# GitHub command-line tool
-brew "gh"
-# Distributed revision control system
-brew "git"
-# Improved top (interactive process viewer)
-brew "htop"
-# Development kit for the Java programming language
 brew "openjdk"
-# Object-relational database system
+brew "ant"
+brew "ca-certificates"
+brew "openssl@1.1"
+brew "cmake"
+brew "cmatrix"
+brew "cowsay"
+brew "fortune"
+brew "gh"
+brew "git"
+brew "htop"
+brew "icu4c"
+brew "pandoc"
 brew "postgresql", restart_service: true
-# Interpreted, interactive, object-oriented programming language
 brew "python@3.9"
-# Python interface to Tcl/Tk
 brew "python-tk@3.9"
-# Version control system designed to be a better CVS
+brew "sbcl"
 brew "subversion"
-# Internet file retriever
+brew "swi-prolog"
+brew "tomcat"
 brew "wget"
-# UNIX shell (command interpreter)
 brew "zsh"
-# Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
-# Informative git prompt for zsh
 brew "zsh-git-prompt"
-# Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-# Voice and text chat software
+cask "anki"
 cask "discord"
-# Password manager
+cask "google-chrome"
 cask "lastpass"
-# Provides updates to various Microsoft products
+cask "mactex"
 cask "microsoft-auto-update"
-# Office suite
 cask "microsoft-office"
-# Administration and development platform for PostgreSQL
+cask "obsidian"
 cask "pgadmin4"
-# Virtual machines UI using QEMU
+cask "slack"
+cask "stats"
 cask "utm"
-# Open-source code editor
 cask "visual-studio-code"
-# Video communication and virtual meeting platform
 cask "zoom"
