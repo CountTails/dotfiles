@@ -73,6 +73,11 @@ set wildmode=list:longest
 "Wildmen will ignore files with theses extensions
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*xlsx
 
+"Plug ins"
+
+"rainbow"
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
 "STATUS LINE"
 
 "Clear status line when vimrc is reloaded"
