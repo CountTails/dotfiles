@@ -78,19 +78,34 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*xlsx
 "rainbow"
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
+let g:lightline = {
+      \ 'colorscheme': 'deus',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent'  ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ]
+      \            ]
+      \ },
+      \ 'component': {
+      \    'charvaluehex': '0x%B'
+      \ }
+      \ } 
+
 "STATUS LINE"
 
 "Clear status line when vimrc is reloaded"
-set statusline=
+"set statusline=
 
 "Status line left side"
-set statusline+=\ %f\ %m\ %y\ %r
+"set statusline+=\ %f\ %m\ %y\ %r
 
 "Use a divider to separate the left side from the right side"
-set statusline+=%=
+"set statusline+=%=
 
 "Status line right side"
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
+"set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 
 "Show the status on the second to last line"
 set laststatus=2

@@ -2,10 +2,11 @@
 
 pluginDir=~/.vim
 
-pluginNames=("auto-pairs" "rainbow")
+pluginNames=("auto-pairs" "rainbow" "lightline.vim")
 pluginRepos=("https://github.com/jiangmiao/auto-pairs.git"
              "https://github.com/luochen1990/rainbow.git"
-    )
+             "https://github.com/itchyny/lightline.vim.git"
+         )
 
 prepare() {
     mkdir -p $pluginDir/autoload
