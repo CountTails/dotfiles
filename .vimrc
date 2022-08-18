@@ -93,6 +93,9 @@ let g:lightline = {
       \ }
       \ } 
 
+"THEME"
+colors deus
+
 "STATUS LINE"
 
 "Clear status line when vimrc is reloaded"
