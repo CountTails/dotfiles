@@ -85,11 +85,15 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'luochen1990/rainbow'
 
-Plug 'ferranpm/vim-autopairs'
+Plug 'raimondi/delimitmate'
 
 Plug 'itchyny/lightline.vim'
 
 Plug 'ajmwagar/vim-dues'
+
+Plug 'vim-python/python-syntax', { 'for': 'python'}
+
+Plug 'valloric/youcompleteme'
 
 call plug#end()
 
