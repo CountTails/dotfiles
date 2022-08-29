@@ -41,6 +41,9 @@ set nobackup
 "Do not wrap lines. Allow long lines to extend as far as the line goes
 set nowrap
 
+"Hide the mode from the bottom of the screen
+set noshowmode
+
 "While searching through a file, incrementally highlight matching characters as you type
 set incsearch
 
@@ -54,8 +57,8 @@ set smartcase
 "Show partial command you type in the last line of the screen
 set showcmd
 
-"Show the mode you are on the last line"
-set showmode
+"Allow backspace over everything
+set backspace=indent,eol,start
 
 "Show matching words during a search"
 set showmatch
