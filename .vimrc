@@ -94,12 +94,19 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'ajmwagar/vim-dues'
 
-Plug 'vim-python/python-syntax', { 'for': 'python'}
+Plug 'sheerun/vim-polyglot'
 
 Plug 'valloric/youcompleteme'
 
+Plug 'scrooloose/syntastic'
+
 call plug#end()
 
+"syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "rainbow"
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -109,7 +116,7 @@ let g:lightline = {
       \ 'colorscheme': 'deus',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ] ],
+      \             [ 'readonly', 'filename', 'modified', 'syntax' ] ],
       \   'right': [ [ 'lineinfo' ],
       \              [ 'percent'  ],
       \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ]
@@ -117,6 +124,9 @@ let g:lightline = {
       \ },
       \ 'component': {
       \    'charvaluehex': '0x%B'
+      \ },
+      \ 'component_function': {
+      \     'syntax': 'SyntasticStatuslineFlag'
       \ }
       \ } 
 
