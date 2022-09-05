@@ -96,17 +96,9 @@ Plug 'ajmwagar/vim-dues'
 
 Plug 'sheerun/vim-polyglot'
 
-Plug 'valloric/youcompleteme'
-
-Plug 'scrooloose/syntastic'
+Plug 'dense-analysis/ale'
 
 call plug#end()
-
-"syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 "rainbow"
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
@@ -124,11 +116,9 @@ let g:lightline = {
       \ },
       \ 'component': {
       \    'charvaluehex': '0x%B'
-      \ },
-      \ 'component_function': {
-      \     'syntax': 'SyntasticStatuslineFlag'
       \ }
-      \ } 
+      \ }
+
 
 "THEME"
 colors deus
