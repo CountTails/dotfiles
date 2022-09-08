@@ -98,6 +98,8 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'dense-analysis/ale'
 
+Plug 'valloric/youcompleteme'
+
 call plug#end()
 
 "rainbow"
