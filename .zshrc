@@ -51,14 +51,13 @@ export PATH=$PATH:/usr/local/texlive/2022/bin/universal-darwin
 export CATALINA_HOME=/opt/homebrew/Cellar/tomcat/10.0.20/libexec
 
 # aliases
-source ./alias.sh
+source ~/.dotfiles/alias.sh
 
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/Cellar/zsh-git-prompt/0.5/zshrc.sh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # prompt customization
 PROMPT="$(drawline)
-$(timedate) | $(currworkingdir) $(git_super_status)
+$(timedate) | $(currworkingdir) 
 $(promptarrow) "
