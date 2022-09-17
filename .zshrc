@@ -56,8 +56,9 @@ source ~/.dotfiles/alias.sh
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/Cellar/zsh-git-prompt/0.5/zshrc.sh
 
 # prompt customization
-PROMPT="$(drawline)
-$(timedate) | $(currworkingdir) 
-$(promptarrow) "
+PROMPT=$'$(drawline)
+$(timedate) | $(currworkingdir) $(git_super_status) 
+$(promptarrow) '
