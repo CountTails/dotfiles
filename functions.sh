@@ -6,4 +6,5 @@ function brewupall() {
     do
         brew upgrade -sv $package
     done;
+    brew upgrade --greedy
 }
