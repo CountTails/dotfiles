@@ -53,6 +53,9 @@ export CATALINA_HOME=/opt/homebrew/Cellar/tomcat/10.0.20/libexec
 # aliases
 source ~/.dotfiles/alias.sh
 
+# user functions
+source ~/.dotfiles/functions.sh
+
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
