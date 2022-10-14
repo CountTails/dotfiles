@@ -2,9 +2,12 @@
 
 # upgrade all formulas and casks
 function brewupall() {
-    for package in "$(brew outdated -q)"
+    packages=($(echo $(brew outdated -q) | tr "," "\n"))
+    for package in $packages
     do
-        brew upgrade -sv $package
+        # Attempt to build from source; otherwise grab the binary
+        brew upgrade -sv $package || brew upgrade $package
     done;
+    # upgrade any other packages (like casks)
     brew upgrade --greedy
 }
