@@ -16,6 +16,9 @@ syntax on
 "Add line numbers to the file
 set number
 
+"Add relative line numbers to the file
+set relativenumber
+
 "Highlight cursor line underneath the cursor horizontally"
 set cursorline
 hi CursorLine term=bold cterm=bold
