@@ -46,9 +46,16 @@ else
     echo "Homebrew binaries not included in $PATH"
 fi
 
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit  
+fi
+
 export CLICOLOR=1
 export PATH=$PATH:/usr/local/texlive/2022/bin/universal-darwin
-export CATALINA_HOME=/opt/homebrew/Cellar/tomcat/10.0.20/libexec
 
 # aliases
 source ~/.dotfiles/alias.sh
