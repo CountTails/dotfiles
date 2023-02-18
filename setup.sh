@@ -56,7 +56,7 @@ function set_up_links {
 
     wrapped_text "Setting up symlinks to the dofiles directory in the home directory"
 
-    DOTFILES=(.gitconfig .ssh .vimrc .zprofile .zshrc nvim)
+    DOTFILES=(.gitconfig .ssh .vimrc .zprofile .zshrc )
 
     for file in "${DOTFILES[@]}"
     do
