@@ -5,6 +5,7 @@ require('options')
 
 -- load neovim plugins
 require('plugins')
+require('lualine').setup()
 
 -- load neovim colorscheme
 require('onedark').load()
