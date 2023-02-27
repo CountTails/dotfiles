@@ -56,6 +56,7 @@ fi
 
 export CLICOLOR=1
 export PATH=$PATH:/usr/local/texlive/2022/bin/universal-darwin
+export AWS_SERVICE=AdministratorAccess-968475016336
 
 # aliases
 source ~/.dotfiles/alias.sh
