@@ -13,6 +13,7 @@ require('cmp').setup(require('config.cmp'))
 
 -- load lsp config
 require'lspconfig'.pylsp.setup{
+    setting = require('config.pylsp'),
     capabilities = require('cmp_nvim_lsp').default_capabilities()
 }
 
