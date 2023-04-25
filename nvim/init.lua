@@ -17,6 +17,11 @@ require'lspconfig'.pylsp.setup{
     capabilities = require('cmp_nvim_lsp').default_capabilities()
 }
 
+require'lspconfig'.rust_analyzer.setup{
+    setting = require('config.rustlsp'),
+    capabilities = require('cmp_nvim_lsp').default_capabilities()
+}
+
 -- load neovim colorscheme
 require('onedark').load()
 
