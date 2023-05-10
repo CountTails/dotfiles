@@ -55,9 +55,7 @@ then
 fi
 
 export CLICOLOR=1
-export PATH=$PATH:/usr/local/texlive/2022/bin/universal-darwin
-export AWS_SERVICE_DEV=DevAdmin
-export AWS_SERVICE_PROD=ProdAdmin
+export PATH=/opt/homebrew/opt/postgresql@15/bin:$PATH:/usr/local/texlive/2022/bin/universal-darwin
 
 # aliases
 source ~/.dotfiles/alias.sh
