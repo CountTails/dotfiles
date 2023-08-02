@@ -20,6 +20,9 @@ return {
       },
       { 
           name = 'vsnip' 
+      },
+      {
+          name = 'path'
       }
     }, 
     {
