@@ -9,9 +9,6 @@
             Source = './git/config.toml'
             Target = '$HOME/.gitconfig'
 
-    [git.options]
-        LinkType = 'symlink'
-
     [git.setup]
         Instructions = [
             'No further setup required'
