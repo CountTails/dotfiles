@@ -1,0 +1,18 @@
+[git]
+
+    PackageName = 'git'
+    PackageDir = './git'
+
+    [git.files]
+
+        [git.files.config]
+            Source = './git/config.toml'
+            Target = '$HOME/.gitconfig'
+
+    [git.options]
+        LinkType = 'symlink'
+
+    [git.setup]
+        Instructions = [
+            'No further setup required'
+        ]
