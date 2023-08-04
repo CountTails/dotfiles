@@ -5,6 +5,7 @@ import sys
 import tomllib
 import typing
 import argparse
+import subprocess
 
 
 class BaseDotfileLinkerException(Exception):
@@ -33,18 +34,11 @@ class ConfigsRepo:
                 f'No such package name: {package_name}'
                 )
 
-    def get_package_options(self, package_name: str) -> typing.Mapping:
-        options = {}
-        package_info = self.get_package(package_name)
-        if 'options' in package_info:
-            options.update(package_info.get('options'))
-        return options
-
-    def get_package_files(self, package_name: str) -> typing.Mapping:
+    def get_package_links(self, package_name: str) -> typing.Mapping:
         files = {}
         package_info = self.get_package(package_name)
         if 'files' in package_info:
-            files.update(package_info.get('files'))
+            files.update(package_info.get('links'))
         return files
 
     def get_package_setup(self, package_name: str) -> typing.Mapping:
@@ -53,14 +47,6 @@ class ConfigsRepo:
         if 'setup' in package_info:
             setups.update(package_info.get('setup'))
         return setups
-
-
-class LinkConfig:
-    pass
-
-
-class LinkPrune:
-    pass
 
 
 def cli():
@@ -81,27 +67,85 @@ def cli():
             help='overwrite an existing link'
             )
     parser_link.add_argument(
-            'package',
+            'packages',
             nargs='+'
             )
+    parser_link.set_defaults(func=link_config)
+    parser_link.set_defaults(repo=ConfigsRepo())
 
     parser_prune = subparsers.add_parser(
             'unlink',
             help='prune the listed package configurations(s)'
             )
     parser_prune.add_argument(
-            'package',
+            'packages',
             nargs='+'
             )
+    parser_prune.set_defaults(func=prune_config)
+    parser_prune.set_defaults(repo=ConfigsRepo())
 
     return parser.parse_args()
 
 
+def link_config(args):
+    for packge in args.packages:
+        print(f'Linking package: {packge}')
+        try:
+            for file in args.repo.get_package_links(packge):
+                if args.force:
+                    exited_process = subprocess.run([
+                        'ln',
+                        '-sf',
+                        file['Source'],
+                        file['Target']
+                        ])
+                else:
+                    exited_process = subprocess.run([
+                        'ln',
+                        '-s',
+                        file['Source'],
+                        file['Target']
+                    ])
+                exited_process.check_returncode()
+                print(f'\tSuccessfully linked {packge}.{file}')
+            print(f'Successfully linked package: {packge}\n')
+            print('Additional setup:')
+            for step, text in enumerate(args.repo.get_package_setup(packge)['Instructions'], 1):
+                print(f'\t{step}: {text}')
+        except subprocess.CalledProcessError:
+            print(f'\tLink command for {packge}.{file} failed!')
+            sys.exit(1)
+    sys.exit(0)
+
+
+def prune_config(args):
+    for packge in args.packages:
+        print(f'Unlinking package: {packge}')
+        try:
+            for file in args.repo.get_package_links(packge):
+                if args.force:
+                    exited_process = subprocess.run([
+                        'rm',
+                        '-f',
+                        file['Target']
+                        ])
+                else:
+                    exited_process = subprocess.run([
+                        'rm',
+                        file['Target']
+                    ])
+                exited_process.check_returncode()
+                print(f'\tSuccessfully unlinked {packge}.{file}')
+            print(f'Successfully unlinked package: {packge}\n')
+        except subprocess.CalledProcessError:
+            print(f'\tLink command for {packge}.{file} failed!')
+            sys.exit(1)
+    sys.exit(0)
+
+
 def rcld():
     cli_args = cli()
-    print(cli_args)
-    repo = ConfigsRepo()
-    print(repo._data)
+    cli_args.func(cli_args)
 
 
 if __name__ == '__main__':
