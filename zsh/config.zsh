@@ -58,10 +58,10 @@ export CLICOLOR=1
 export PATH=/opt/homebrew/opt/postgresql@15/bin:$PATH:/usr/local/texlive/2022/bin/universal-darwin
 
 # aliases
-source ~/.dotfiles/alias.sh
+source ~/.aliases
 
 # user functions
-source ~/.dotfiles/functions.sh
+source ~/.functions
 
 # ZSH plugins
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
