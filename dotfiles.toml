@@ -3,9 +3,9 @@
     PackageName = 'git'
     PackageDir = './git'
 
-    [git.files]
+    [git.links]
 
-        [git.files.config]
+        [git.links.config]
             Source = './git/config.toml'
             Target = '$HOME/.gitconfig'
 
