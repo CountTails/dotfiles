@@ -6,6 +6,7 @@ import tomllib
 import typing
 import argparse
 import subprocess
+import time
 
 
 class BaseDotfileLinkerException(Exception):
@@ -14,6 +15,14 @@ class BaseDotfileLinkerException(Exception):
 
 class NoSuchConfigurationException(BaseDotfileLinkerException):
     """Exception raised when an expected configuration is missing"""
+
+
+class ConfigurationLinkFailure(BaseDotfileLinkerException):
+    """Exception raised when a link command fails to succeed"""
+
+
+class ConfigurationPruneFailure(BaseDotfileLinkerException):
+    """Exception raised when a prune command fails to succeed"""
 
 
 class ConfigsRepo:
@@ -37,7 +46,7 @@ class ConfigsRepo:
     def get_package_links(self, package_name: str) -> typing.Mapping:
         files = {}
         package_info = self.get_package(package_name)
-        if 'files' in package_info:
+        if 'links' in package_info:
             files.update(package_info.get('links'))
         return files
 
@@ -47,6 +56,58 @@ class ConfigsRepo:
         if 'setup' in package_info:
             setups.update(package_info.get('setup'))
         return setups
+
+
+class LinkCommand:
+    def __init__(self, options, link_source, link_target):
+        self._args = []
+        self._args.append('/bin/ln')
+        self._args.append('-s')
+        if options.force:
+            self._args.append('-f')
+        self._args.append(link_source)
+        self._args.append(link_target)
+
+    def exec(self):
+        try:
+            print(f'\tExecuting: {" ".join(self._args)}')
+            subprocess.run(
+                    args=self._args,
+                    capture_output=True,
+                    check=True,
+                    )
+            time.sleep(1)
+        except subprocess.CalledProcessError as err:
+            print(f'\tCommand failed: {" ".join(self._args)}')
+            raise ConfigurationLinkFailure(
+                f'Command: {" ".join(self._args)} exited with code {err.returncode}.'
+                f' Captured output:\n{err.stderr}'
+                    ) from err
+
+
+class UnlinkCommand:
+    def __init__(self, options, link_to_prune):
+        self._args = []
+        self._args.append('/bin/rm')
+        if options.force:
+            self._args.append('-f')
+        self._args.append(link_to_prune)
+
+    def exec(self):
+        try:
+            print(f'\tExecuting: {" ".join(self._args)}')
+            subprocess.run(
+                    args=self._args,
+                    capture_output=True,
+                    check=True,
+                    )
+            time.sleep(1)
+        except subprocess.CalledProcessError as err:
+            print(f'\tCommand failed: {" ".join(self._args)}')
+            raise ConfigurationPruneFailure(
+                f'Command: {" ".join(self._args)} exited with code {err.returncode}.'
+                f' Captured output:\n{err.stderr}'
+                    ) from err
 
 
 def cli():
@@ -81,6 +142,12 @@ def cli():
             'packages',
             nargs='+'
             )
+    parser_prune.add_argument(
+            '-f',
+            '--force',
+            action='store_true',
+            help='forceably remove a link'
+            )
     parser_prune.set_defaults(func=prune_config)
     parser_prune.set_defaults(repo=ConfigsRepo())
 
@@ -90,57 +157,28 @@ def cli():
 def link_config(args):
     for packge in args.packages:
         print(f'Linking package: {packge}')
-        try:
-            for file in args.repo.get_package_links(packge):
-                if args.force:
-                    exited_process = subprocess.run([
-                        'ln',
-                        '-sf',
-                        file['Source'],
-                        file['Target']
-                        ])
-                else:
-                    exited_process = subprocess.run([
-                        'ln',
-                        '-s',
-                        file['Source'],
-                        file['Target']
-                    ])
-                exited_process.check_returncode()
-                print(f'\tSuccessfully linked {packge}.{file}')
-            print(f'Successfully linked package: {packge}\n')
-            print('Additional setup:')
-            for step, text in enumerate(args.repo.get_package_setup(packge)['Instructions'], 1):
-                print(f'\t{step}: {text}')
-        except subprocess.CalledProcessError:
-            print(f'\tLink command for {packge}.{file} failed!')
-            sys.exit(1)
-    sys.exit(0)
+        for file, link in args.repo.get_package_links(packge).items():
+            cmd = LinkCommand(
+                args,
+                f'{args.repo.__directory__}/{link["Source"]}',
+                os.path.expanduser(link['Target']),
+                )
+            cmd.exec()
+            print(f'\tLinked file: {packge}.{file}')
+        print(f'Successfully linked: {packge}')
 
 
 def prune_config(args):
-    for packge in args.packages:
-        print(f'Unlinking package: {packge}')
-        try:
-            for file in args.repo.get_package_links(packge):
-                if args.force:
-                    exited_process = subprocess.run([
-                        'rm',
-                        '-f',
-                        file['Target']
-                        ])
-                else:
-                    exited_process = subprocess.run([
-                        'rm',
-                        file['Target']
-                    ])
-                exited_process.check_returncode()
-                print(f'\tSuccessfully unlinked {packge}.{file}')
-            print(f'Successfully unlinked package: {packge}\n')
-        except subprocess.CalledProcessError:
-            print(f'\tLink command for {packge}.{file} failed!')
-            sys.exit(1)
-    sys.exit(0)
+    for package in args.packages:
+        print(f'Unlinking package: {package}')
+        for file, link in args.repo.get_package_links(package).items():
+            cmd = UnlinkCommand(
+                    args,
+                    os.path.expanduser(link['Target'])
+                    )
+            cmd.exec()
+            print(f'\tUnlinked file: {package}.{file}')
+        print(f'Successfully unlinked: {package}')
 
 
 def rcld():
