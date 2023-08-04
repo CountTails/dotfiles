@@ -6,4 +6,18 @@
             Source = 'git/config.toml'
             Target = '~/.gitconfig'
 
- 
+[zsh]
+
+    [zsh.links]
+        
+        [zsh.links.aliases]
+            Source = 'zsh/aliases.zsh'
+            Target = '~/.aliases'
+
+        [zsh.links.functions]
+            Source = 'zsh/functions.zsh'
+            Target = '~/.functions'
+
+        [zsh.links.config]
+            Source = 'zsh/config.zsh'
+            Target = '~/.zshrc'
