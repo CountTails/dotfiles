@@ -21,3 +21,11 @@
         [zsh.links.config]
             Source = 'zsh/config.zsh'
             Target = '~/.zshrc'
+
+[vim]
+    
+    [vim.links]
+        
+        [vim.links.config]
+            Source = 'vim/config.vim'
+            Target = '~/.vimrc'
