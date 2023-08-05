@@ -1,14 +1,4 @@
 Host github.com
-  AddKeysToAgent yes
   User git
-  IdentityFile ~/.ssh/id_ed25519
+  IdentityFile ~/.ssh/id_github.priv
 
-Host nathancmendoza.live
-  AddKeysToAgent yes
-  User ncm
-  IdentityFile ~/.ssh/id_home_server
-
-Host nathancmendoza.live
-  AddKeysToAgent yes
-  User www
-  IdentityFile ~/.ssh/id_www_server
