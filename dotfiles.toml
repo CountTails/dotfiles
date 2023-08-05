@@ -29,3 +29,37 @@
         [vim.links.config]
             Source = 'vim/config.vim'
             Target = '~/.vimrc'
+
+[ssh]
+
+    [ssh.setup]
+        RequiredDirectories = [
+            '~/.ssh'
+        ]
+
+    [ssh.links]
+
+        [ssh.links.config]
+            Source = 'ssh/config'
+            Target = '~/.ssh/config'
+
+        [ssh.links.known_hosts]
+            Source = 'ssh/known_hosts'
+            Target = '~/.ssh/known_hosts'
+
+[nvim]
+
+    [nvim.setup]
+        RequiredDirectories = [
+            '~/.config/nvim'
+        ]
+
+    [nvim.links]
+        
+        [nvim.links.init]
+            Source = 'nvim/init.lua'
+            Target = '~/.config/nvim/init.lua'
+
+        [nvim.links.lua]
+            Source = 'nvim/lua'
+            Target = '~/.config/nvim/lua'
