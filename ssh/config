@@ -2,3 +2,10 @@ Host github.com
   User git
   IdentityFile ~/.ssh/id_github.priv
 
+Host nathancmendoza.live
+    User ncm 
+    IdentityFile ~/.ssh/id_ncm_server.priv
+
+Host nathancmendoza.live
+    User www
+    IdentityFile ~/.ssh/id_www_server.priv
