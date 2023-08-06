@@ -1,4 +1,5 @@
 [git]
+    PackageName = 'Git'
 
     [git.links]
 
@@ -7,6 +8,7 @@
             Target = '~/.gitconfig'
 
 [zsh]
+    PackageName = 'Zsh'
 
     [zsh.links]
         
@@ -23,6 +25,7 @@
             Target = '~/.zshrc'
 
 [vim]
+    PackageName = 'Vim'
     
     [vim.links]
         
@@ -31,6 +34,7 @@
             Target = '~/.vimrc'
 
 [ssh]
+    PackageName = 'Secure Shell'
 
     [ssh.setup]
         RequiredDirectories = [
@@ -48,6 +52,7 @@
             Target = '~/.ssh/known_hosts'
 
 [nvim]
+    PackageName = 'Neovim'
 
     [nvim.setup]
         RequiredDirectories = [
