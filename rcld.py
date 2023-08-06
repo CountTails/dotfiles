@@ -6,7 +6,14 @@ import tomllib
 import typing
 import argparse
 import subprocess
-import time
+import logging
+
+
+LOGGER = logging.getLogger(__name__)
+HANDLER = logging.StreamHandler()
+HANDLER.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+LOGGER.addHandler(HANDLER)
+LOGGER.setLevel(logging.WARNING)
 
 
 class BaseDotfileLinkerException(Exception):
@@ -49,13 +56,18 @@ class ShellCommand:
         self._args = []
 
     def set_executable(self, binary: str):
+        LOGGER.debug("New executable: %s", binary)
         self._program = binary
 
     def add_option(self, flag: str):
+        LOGGER.debug("New option: %s", flag)
         self._options.append(flag)
+        LOGGER.debug("Options to pass: %s", " ".join(self._options))
 
     def add_argument(self, arg: str):
+        LOGGER.debug("New argument: %s", arg)
         self._args.append(arg)
+        LOGGER.debug("Arguments to pass: %s", " ".join(self._args))
 
     @property
     def cmd(self):
@@ -63,13 +75,20 @@ class ShellCommand:
 
     def run(self):
         try:
+            LOGGER.debug("Running command: %s", " ".join(self.cmd))
             subprocess.run(
                     args=self.cmd,
                     capture_output=True,
                     check=True
                     )
             self._executed = True
+            LOGGER.debug("Command execution successful")
         except subprocess.CalledProcessError as err:
+            LOGGER.error(
+                    "Command %s exited with code %d",
+                    " ".join(self.cmd),
+                    err.returncode
+                    )
             raise ShellCommandFailure(
                     f'Command: {" ".join(self.cmd)} exited with code {err.returncode}. '
                     f'Captured output:\n{err.stderr}'
@@ -80,6 +99,18 @@ def cli():
     parser = argparse.ArgumentParser(
             prog='rcld',
             description='A script for managing configuration file links'
+            )
+    parser.add_argument(
+            '-v',
+            '--verbose',
+            action='store_true',
+            help='cause the program to increase logging'
+            )
+    parser.add_argument(
+            '-q',
+            '--quiet',
+            action='store_true',
+            help='cause the program to minimize logging'
             )
     subparsers = parser.add_subparsers(required=True)
 
@@ -122,12 +153,16 @@ def cli():
 
 def link_config(args):
     def do_package_setup(package_info):
+        LOGGER.info("Setting up package: %s", package_info['PackageName'])
+
         def make_required_dirs(directories: typing.List[str]):
+            LOGGER.debug('Directories to create: %d', len(directories))
             for d in directories:
                 cmd = ShellCommand()
                 cmd.set_executable('/bin/mkdir')
                 cmd.add_option('-p')
                 cmd.add_argument(os.path.expanduser(d))
+                LOGGER.info("Creating directory: %s", os.path.expanduser(d))
                 cmd.run()
 
         if 'setup' not in package_info:
@@ -136,6 +171,7 @@ def link_config(args):
             make_required_dirs(package_info['setup']['RequiredDirectories'])
 
     def create_package_links(package_info, cmd_args):
+        LOGGER.info("Linking up package: %s", package_info['PackageName'])
         for _, link in package_info['links'].items():
             cmd = ShellCommand()
             cmd.set_executable('/bin/ln')
@@ -144,6 +180,11 @@ def link_config(args):
                 cmd.add_option('-f')
             cmd.add_argument(f"{cmd_args.repo.__directory__}/{link['Source']}")
             cmd.add_argument(os.path.expanduser(link['Target']))
+            LOGGER.info(
+                    'Linking file: %s -> %s',
+                    os.path.expanduser(link['Target']),
+                    link['Source']
+                    )
             cmd.run()
 
     for packge in args.packages:
@@ -154,12 +195,14 @@ def link_config(args):
 
 def prune_config(args):
     def prune_package_links(package_info, cmd_args):
+        LOGGER.info("Unlinking package: %s", package_info['PackageName'])
         for _, link in package_info['links'].items():
             cmd = ShellCommand()
             cmd.set_executable('/bin/rm')
             if cmd_args.force:
                 cmd.add_option('-f')
             cmd.add_argument(os.path.expanduser(link['Target']))
+            LOGGER.info("Unlinking file: %s", os.path.expanduser(link['Target']))
             cmd.run()
 
     for package in args.packages:
@@ -168,8 +211,17 @@ def prune_config(args):
 
 
 def rcld():
-    cli_args = cli()
-    cli_args.func(cli_args)
+    try:
+        cli_args = cli()
+        if cli_args.verbose:
+            LOGGER.setLevel(logging.DEBUG)
+        if cli_args.quiet:
+            LOGGER.setLevel(logging.CRITICAL)
+        cli_args.func(cli_args)
+        sys.exit(0)
+    except BaseDotfileLinkerException as err:
+        LOGGER.error('%s', str(err))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
