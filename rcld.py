@@ -17,12 +17,8 @@ class NoSuchConfigurationException(BaseDotfileLinkerException):
     """Exception raised when an expected configuration is missing"""
 
 
-class ConfigurationLinkFailure(BaseDotfileLinkerException):
-    """Exception raised when a link command fails to succeed"""
-
-
-class ConfigurationPruneFailure(BaseDotfileLinkerException):
-    """Exception raised when a prune command fails to succeed"""
+class ShellCommandFailure(BaseDotfileLinkerException):
+    """Exception raised when a shell command has a nonzero exit code"""
 
 
 class ConfigsRepo:
@@ -36,77 +32,47 @@ class ConfigsRepo:
         with open(f"{self.__directory__}/{self.__settings__}", "rb") as f:
             self._data: typing.Mapping = tomllib.load(f)
 
-    def get_package(self, package_name: str) -> typing.Mapping:
+    def get_package_info(self, package_name: str) -> typing.Mapping:
         if package_name in self._data:
             return self._data[package_name]
         raise NoSuchConfigurationException(
                 f'No such package name: {package_name}'
                 )
 
-    def get_package_links(self, package_name: str) -> typing.Mapping:
-        files = {}
-        package_info = self.get_package(package_name)
-        if 'links' in package_info:
-            files.update(package_info.get('links'))
-        return files
 
-    def get_package_setup(self, package_name: str) -> typing.Mapping:
-        setups = {}
-        package_info = self.get_package(package_name)
-        if 'setup' in package_info:
-            setups.update(package_info.get('setup'))
-        return setups
+class ShellCommand:
 
-
-class LinkCommand:
-    def __init__(self, options, link_source, link_target):
+    def __init__(self):
+        self._executed = False
+        self._program = None
+        self._options = []
         self._args = []
-        self._args.append('/bin/ln')
-        self._args.append('-s')
-        if options.force:
-            self._args.append('-f')
-        self._args.append(link_source)
-        self._args.append(link_target)
 
-    def exec(self):
+    def set_executable(self, binary: str):
+        self._program = binary
+
+    def add_option(self, flag: str):
+        self._options.append(flag)
+
+    def add_argument(self, arg: str):
+        self._args.append(arg)
+
+    @property
+    def cmd(self):
+        return [self._program] + self._options + self._args
+
+    def run(self):
         try:
-            print(f'\tExecuting: {" ".join(self._args)}')
             subprocess.run(
-                    args=self._args,
+                    args=self.cmd,
                     capture_output=True,
-                    check=True,
+                    check=True
                     )
-            time.sleep(1)
+            self._executed = True
         except subprocess.CalledProcessError as err:
-            print(f'\tCommand failed: {" ".join(self._args)}')
-            raise ConfigurationLinkFailure(
-                f'Command: {" ".join(self._args)} exited with code {err.returncode}.'
-                f' Captured output:\n{err.stderr}'
-                    ) from err
-
-
-class UnlinkCommand:
-    def __init__(self, options, link_to_prune):
-        self._args = []
-        self._args.append('/bin/rm')
-        if options.force:
-            self._args.append('-f')
-        self._args.append(link_to_prune)
-
-    def exec(self):
-        try:
-            print(f'\tExecuting: {" ".join(self._args)}')
-            subprocess.run(
-                    args=self._args,
-                    capture_output=True,
-                    check=True,
-                    )
-            time.sleep(1)
-        except subprocess.CalledProcessError as err:
-            print(f'\tCommand failed: {" ".join(self._args)}')
-            raise ConfigurationPruneFailure(
-                f'Command: {" ".join(self._args)} exited with code {err.returncode}.'
-                f' Captured output:\n{err.stderr}'
+            raise ShellCommandFailure(
+                    f'Command: {" ".join(self.cmd)} exited with code {err.returncode}. '
+                    f'Captured output:\n{err.stderr}'
                     ) from err
 
 
@@ -136,7 +102,7 @@ def cli():
 
     parser_prune = subparsers.add_parser(
             'unlink',
-            help='prune the listed package configurations(s)'
+            help='prune the listed package configuration(s)'
             )
     parser_prune.add_argument(
             'packages',
@@ -155,30 +121,50 @@ def cli():
 
 
 def link_config(args):
+    def do_package_setup(package_info):
+        def make_required_dirs(directories: typing.List[str]):
+            for d in directories:
+                cmd = ShellCommand()
+                cmd.set_executable('/bin/mkdir')
+                cmd.add_option('-p')
+                cmd.add_argument(os.path.expanduser(d))
+                cmd.run()
+
+        if 'setup' not in package_info:
+            return
+        if 'RequiredDirectories' in package_info['setup']:
+            make_required_dirs(package_info['setup']['RequiredDirectories'])
+
+    def create_package_links(package_info, cmd_args):
+        for _, link in package_info['links'].items():
+            cmd = ShellCommand()
+            cmd.set_executable('/bin/ln')
+            cmd.add_option('-s')
+            if cmd_args.force:
+                cmd.add_option('-f')
+            cmd.add_argument(f"{cmd_args.repo.__directory__}/{link['Source']}")
+            cmd.add_argument(os.path.expanduser(link['Target']))
+            cmd.run()
+
     for packge in args.packages:
-        print(f'Linking package: {packge}')
-        for file, link in args.repo.get_package_links(packge).items():
-            cmd = LinkCommand(
-                args,
-                f'{args.repo.__directory__}/{link["Source"]}',
-                os.path.expanduser(link['Target']),
-                )
-            cmd.exec()
-            print(f'\tLinked file: {packge}.{file}')
-        print(f'Successfully linked: {packge}')
+        package_info = args.repo.get_package_info(packge)
+        do_package_setup(package_info)
+        create_package_links(package_info, args)
 
 
 def prune_config(args):
+    def prune_package_links(package_info, cmd_args):
+        for _, link in package_info['links'].items():
+            cmd = ShellCommand()
+            cmd.set_executable('/bin/rm')
+            if cmd_args.force:
+                cmd.add_option('-f')
+            cmd.add_argument(os.path.expanduser(link['Target']))
+            cmd.run()
+
     for package in args.packages:
-        print(f'Unlinking package: {package}')
-        for file, link in args.repo.get_package_links(package).items():
-            cmd = UnlinkCommand(
-                    args,
-                    os.path.expanduser(link['Target'])
-                    )
-            cmd.exec()
-            print(f'\tUnlinked file: {package}.{file}')
-        print(f'Successfully unlinked: {package}')
+        package_info = args.repo.get_package_info(package)
+        prune_package_links(package_info, args)
 
 
 def rcld():
