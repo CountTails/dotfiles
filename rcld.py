@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 HANDLER = logging.StreamHandler()
 HANDLER.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 LOGGER.addHandler(HANDLER)
-LOGGER.setLevel(logging.WARNING)
+LOGGER.setLevel(logging.INFO)
 
 
 class BaseDotfileLinkerException(Exception):
