@@ -1,0 +1,43 @@
+options:
+  repository: ~/.dotfiles
+configurations:
+  - name: git
+    status: Ready
+    os: linux
+    links:
+      - name: gitconfig
+        source: git/config.toml
+        target: ~/.gitconfig
+        mode: Soft
+  - name: git
+    status: Ready
+    os: macos
+    links:
+      - name: gitconfig
+        source: git/config.toml
+        target: ~/.gitconfig
+        mode: Soft
+  - name: zsh
+    status: Ready
+    os: macos
+    links:
+      - name: config
+        source: zsh/config.zsh
+        target: ~/.zshrc
+        mode: Soft
+      - name: functions
+        source: zsh/functions.zsh
+        target: ~/.functions
+        mode: Copy
+      - name: aliases
+        source: zsh/aliases.zsh
+        target: ~/.aliases
+        mode: Copy
+  - name: vim
+    status: Unused
+    os: linux
+    links:
+      - name: config
+        source: vim/config.vim
+        target: ~/.vimrc
+        mode: Soft
