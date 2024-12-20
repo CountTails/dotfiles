@@ -1,6 +1,6 @@
 # aliases
 # aliases for (modern) ls
-alias ls="exa"
+alias ls="eza"
 alias ll="ls -l"
 alias la="ls -a"
 alias lla="ls -al"
