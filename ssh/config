@@ -3,6 +3,10 @@ Host github.com
   IdentityFile ~/.ssh/id_github.priv
 
 Host proxy
-    HostName ncm.dev
+    HostName counttails.com
     User ncm
     IdentityFile ~/.ssh/id_ncm_proxy.priv
+
+Host bitbucket.org
+    User git
+    IdentityFile ~/.ssh/mse-bitbucket.priv
