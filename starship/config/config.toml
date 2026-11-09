@@ -1,0 +1,78 @@
+# ~/.config/starship.toml
+#
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[░▒▓](white)\
+$os$shell${custom.user_symbol_zsh}\
+[](bg:cyan fg:white)\
+$directory\
+[](fg:cyan bg:blue)\
+$git_branch$git_status$git_metrics\
+[](fg:blue)\
+$status\
+\n$character"""
+
+
+[os]
+disabled = false
+style = "bg:white fg:black"
+format = "[ $symbol]($style)"
+
+[os.symbols]
+Windows = ""
+Macos = "󰀵"
+Linux = "󰌽"
+
+[shell]
+disabled = false
+unknown_indicator = "?"
+style = "bg:white fg:black"
+format = "[ $indicator]($style)"
+
+
+[custom.user_symbol_zsh]
+command = "if [ \"$EUID\" -eq 0 ]; then printf ' '; else printf ' '; fi"
+when = "[ \"$STARSHIP_SHELL\" = \"zsh\" ]"
+shell = ["zsh"]
+style = "bg:white fg:black"
+format = "[ $output ]($style)"
+
+[directory]
+style = "bg:cyan fg:black"
+format = "[   $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:blue"
+format = '[[ $symbol $branch ](fg:black bg:blue)]($style)'
+
+[git_status]
+style = "bg:blue"
+up_to_date = ''
+diverged = '  ${ahead_count}  ${behind_count}'
+modified = "  $count"
+untracked = "  $count"
+staged = "  $count"
+format = '[[$ahead_behind$modified$untracked$staged](fg:black bg:blue)]($style)'
+
+[git_metrics]
+added_style = "bg:blue fg:black"
+deleted_style = "bg:blue fg:black"
+only_nonzero_diffs = false
+disabled = false
+format = "[ [+$added]($added_style) [-$deleted]($deleted_style)](bg:blue)"
+
+[status]
+style = 'fg:white'
+format = '[  $common_meaning$signal_name$maybe_int]($style) '
+pipestatus = true
+disabled = false
+
+[character]
+success_symbol = "[](bold white)"
+error_symbol = "[](bold white)"
+vimcmd_symbol = "[](bold yellow)"
