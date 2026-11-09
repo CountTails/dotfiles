@@ -1,9 +1,3 @@
 [submodule "wezterm"]
 	path = wezterm
 	url = https://github.com/CountTails/.weztermrc
-[submodule "starship"]
-	path = starship
-	url = git@github.com:CountTails/.starshiprc.git
-[submodule "zsh"]
-	path = zsh
-	url = git@github.com:CountTails/.zshrc.git
