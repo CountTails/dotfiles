@@ -1,6 +1,6 @@
 #! /bin/bash
 
-REAL="$(git rev-parse --show-toplevel)/.config/vim/init.vim"
+REAL="$HOME/.config/vim/init.vim"
 LINK="$HOME/.vimrc"
 FORCE=false
 
@@ -51,4 +51,4 @@ if ! rm -f -- "$REAL"; then
 fi
 
 echo "OK: configuration successfully removed"
-exit 1
+exit 0
