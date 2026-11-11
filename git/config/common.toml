@@ -1,0 +1,93 @@
+# This is Git's per-user configuration file.
+# These settings are the common user-specific settings applied when using git
+# [user] is excluded and included based on the origin url of the current git repo
+
+[core]
+	editor = nvim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	pager = delta
+    excludesfile = ~/.config/git/common.ignore
+    ignorecase = false
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[checkout]
+	defaultRemote = origin
+[rerere]
+	enabled = 1
+	autoupdate = 1
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	renames = true
+	tool = diffview
+[difftool "diffview"]
+	cmd = nvim -n -c \"DiffviewDiffFiles $LOCAL $REMOTE\"
+[difftool]
+	prompt = false
+[merge]
+	tool = diffview
+	conflictStyle = zdiff3
+[mergetool "diffview"]
+	cmd = nvim -n -c \"DiffviewMergeFiles $MERGED $BASE $LOCAL $REMOTE\"
+[mergetool]
+	prompt = false
+	keepBackup = false
+[push]
+	autoSetupRemote = true
+	followTags = true
+	useForceIfIncludes = true
+	default = matching
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[rebase]
+	autoSquash = true
+	updateRefs = true
+[color]
+	ui = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[web]
+	browser = chromium
+[delta]
+	features = line-numbers decorations
+	line-numbers = true
+[delta "decorations"]
+	minus-style = red bold normal
+	plus-style = green bold normal
+	minus-emph-style = white bold red
+	minus-non-emph-style = red bold normal
+	plus-emph-style = white bold green
+	plus-non-emph-style = green bold normal
+	file-style = yellow bold none
+	file-decoration-style = yellow box
+	hunk-header-style = magenta bold
+	hunk-header-decoration-style = magenta box
+	minus-empty-line-marker-style = normal normal
+	plus-empty-line-marker-style = normal normal
+	line-numbers-right-format = "{np:^4}│ "
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[includeIf "hasconfig:remote.*.url:git@github.com:CountTails/**"]
+    path = ~/.config/git/alias/counttail-github.toml
