@@ -90,4 +90,4 @@
 	required = true
 
 [includeIf "hasconfig:remote.*.url:git@github.com:CountTails/**"]
-    path = ~/.config/git/alias/counttail-github.toml
+    path = ~/.config/git/alias/counttails-github.toml
